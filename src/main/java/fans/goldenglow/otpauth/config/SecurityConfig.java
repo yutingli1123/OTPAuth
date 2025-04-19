@@ -1,5 +1,7 @@
 package fans.goldenglow.otpauth.config;
 
+import fans.goldenglow.otpauth.service.SecurityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,8 +19,12 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    @Value("${jwt.secret}")
-    private String JWT_SECRET;
+    private final SecurityService securityService;
+
+    @Autowired
+    public SecurityConfig(SecurityService securityService) {
+        this.securityService = securityService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,6 +32,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/api/v1/token/validate").authenticated()
                         .requestMatchers("/api/v1/auth/**", "/api/v1/token/**", "/public/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -40,7 +47,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        SecretKey secretKey = new SecretKeySpec(JWT_SECRET.getBytes(), "HmacSHA256");
-        return NimbusJwtDecoder.withSecretKey(secretKey).build();
+        return NimbusJwtDecoder.withSecretKey(securityService.GetSecret()).build();
     }
 }

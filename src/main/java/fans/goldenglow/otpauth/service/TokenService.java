@@ -6,6 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import fans.goldenglow.otpauth.dto.TokenResponse;
 import fans.goldenglow.otpauth.model.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @Service
 public class TokenService {
     @Value("${verification.code.length}")
@@ -37,10 +39,10 @@ public class TokenService {
     private final Algorithm algorithm;
 
     @Autowired
-    public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, @Value("${jwt.secret}") String jwtSecret) {
+    public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, SecurityService securityService) {
         this.redisTemplate = redisTemplate;
         this.userService = userService;
-        algorithm = Algorithm.HMAC256(jwtSecret);
+        algorithm = Algorithm.HMAC256(securityService.GetSecret().getEncoded());
     }
 
     private void saveVerificationCode(String email, String verificationCode) {

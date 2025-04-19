@@ -5,10 +5,7 @@ import fans.goldenglow.otpauth.dto.TokenResponse;
 import fans.goldenglow.otpauth.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/token")
@@ -31,7 +28,17 @@ public class TokenController {
     }
 
     @PostMapping("/refresh")
-    public void refreshToken() {
+    public void refreshToken(@RequestBody String refreshTokenValue) {
 
+    }
+
+    @GetMapping("/validate")
+    public ResponseEntity<String> validateToken() {
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/test")
+    public ResponseEntity<TokenResponse> test() {
+        return ResponseEntity.ok(tokenService.generateTokens("testttttt"));
     }
 }
