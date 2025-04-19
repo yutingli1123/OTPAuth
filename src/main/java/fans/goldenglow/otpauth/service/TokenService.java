@@ -41,10 +41,10 @@ public class TokenService {
     private final Algorithm algorithm;
 
     @Autowired
-    public TokenService(RedisTemplate<String, VerificationCode> redisTemplate, UserService userService, JwtService jwtService) {
+    public TokenService(RedisTemplate<String, VerificationCode> redisTemplate, UserService userService, SecurityService securityService) {
         this.redisTemplate = redisTemplate;
         this.userService = userService;
-        this.algorithm = jwtService.getAlgorithm();
+        this.algorithm = Algorithm.HMAC256(securityService.GetSecret().getEncoded());
     }
 
     private void saveVerificationCode(String email, VerificationCode verificationCode) {
