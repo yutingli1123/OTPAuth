@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/token")
+@RequestMapping("/api/v1/auth/token")
 public class TokenController {
     private final TokenService tokenService;
 
@@ -17,7 +17,7 @@ public class TokenController {
         this.tokenService = tokenService;
     }
 
-    @PostMapping("/exchange")
+    @PostMapping
     public ResponseEntity<TokenResponse> exchangeToken(@RequestBody TokenRequest token) {
         boolean verificationResult = tokenService.validateVerificationCode(token.getEmail(), token.getVerificationCode());
         if (verificationResult) {
@@ -30,10 +30,5 @@ public class TokenController {
     @PostMapping("/refresh")
     public void refreshToken(@RequestBody String refreshTokenValue) {
 
-    }
-
-    @GetMapping("/validate")
-    public ResponseEntity<String> validateToken() {
-        return ResponseEntity.ok().build();
     }
 }
