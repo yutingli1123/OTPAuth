@@ -78,6 +78,10 @@ public class TokenService {
     }
 
     public String createVerificationCode(String email) {
+        if (redisTemplate.hasKey(VERIFICATION_CODE_PREFIX + email)) {
+            return null;
+        }
+
         String verificationCode = generateVerificationCode();
 
         saveVerificationCode(email, verificationCode);
