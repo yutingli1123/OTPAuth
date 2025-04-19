@@ -13,8 +13,8 @@ import org.hibernate.validator.constraints.Length;
 public class TokenRequest {
     @JsonProperty("email")
     @Email
-    public String email;
+    private String email;
     @JsonProperty("verification_code")
     @ValidVerificationCode
-    public String verificationCode;
+    private String verificationCode;
 }

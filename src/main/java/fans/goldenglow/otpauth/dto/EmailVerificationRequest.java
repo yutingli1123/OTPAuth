@@ -12,5 +12,5 @@ import lombok.Setter;
 @Setter
 public class EmailVerificationRequest {
     @Email
-    public String email;
+    private String email;
 }
