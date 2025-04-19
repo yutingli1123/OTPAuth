@@ -7,6 +7,13 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Service class responsible for security-related operations.
+ * <p>
+ * This class is designed to manage cryptographic keys such as
+ * the secret key used for JWT (JSON Web Token) operations.
+ * It includes functionality to generate and retrieve the secret key.
+ */
 @Slf4j
 @Service
 public class SecurityService {
@@ -23,7 +30,7 @@ public class SecurityService {
         return null;
     }
 
-    public SecretKey GetSecret() {
+    public SecretKey getSecret() {
         if (jwtSecret == null) {
             jwtSecret = GenerateSecret();
         }

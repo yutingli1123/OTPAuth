@@ -6,6 +6,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents a request for email verification.
+ * <p>
+ * The email address is validated using the {@code @Email} annotation to ensure a valid format.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

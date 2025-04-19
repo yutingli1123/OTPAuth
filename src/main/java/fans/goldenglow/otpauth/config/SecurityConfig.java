@@ -14,6 +14,19 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
 
+/**
+ * Configuration class for setting up the security aspects of the application.
+ * <p>
+ * This class is annotated with @Configuration and @EnableWebSecurity, signifying
+ * that it is a configuration component in Spring Security. It defines the security
+ * filter chain and JWT decoder to handle authentication and request authorization.
+ * <p>
+ * Responsibilities include:
+ * - Defining and configuring the security filter chain for handling HTTP security.
+ * - Setting up rules for request authorization based on request matchers and scopes.
+ * - Configuring stateless session management for the application.
+ * - Providing a JwtDecoder bean configured with a secret key from the SecurityService.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -46,6 +59,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withSecretKey(securityService.GetSecret()).build();
+        return NimbusJwtDecoder.withSecretKey(securityService.getSecret()).build();
     }
 }

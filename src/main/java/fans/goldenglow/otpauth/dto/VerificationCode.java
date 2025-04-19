@@ -7,6 +7,9 @@ import lombok.Setter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Represents a verification code with its creation timestamp.
+ */
 @AllArgsConstructor
 @Getter
 @Setter

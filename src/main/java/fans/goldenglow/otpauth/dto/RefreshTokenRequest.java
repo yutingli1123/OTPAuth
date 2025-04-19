@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * Represents a request to refresh an authentication token.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

@@ -8,6 +8,13 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Represents a user entity in the system. This class is mapped to the "users" table in the database.
+ * It includes fields for identifying and managing user data such as email, creation timestamp, last login timestamp, and active status.
+ * <p>
+ * The {@code User} class uses JPA annotations to define the database schema mappings and utilizes Lombok annotations
+ * for boilerplate code generation such as getters and setters.
+ */
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
@@ -19,7 +26,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true ,nullable = false)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column(name = "created_at")
