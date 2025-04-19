@@ -19,4 +19,4 @@ jobs:
           java-version: 21
           target-folder: javadoc
           project: gradle
-          custom-command: javadoc -d javadoc -sourcepath src/main/java -subpackages .
+          custom-command: gradlew javadoc
