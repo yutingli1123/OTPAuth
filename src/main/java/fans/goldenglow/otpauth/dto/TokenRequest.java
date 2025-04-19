@@ -10,9 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class TokenResponse {
-    @JsonProperty("access_token")
-    private String accessToken;
-    @JsonProperty("refresh_token")
-    private String refreshToken;
+public class TokenRequest {
+    @JsonProperty("email")
+    public String email;
+    @JsonProperty("verification_code")
+    public String verificationCode;
 }

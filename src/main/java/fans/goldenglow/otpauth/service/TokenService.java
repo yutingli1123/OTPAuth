@@ -1,18 +1,19 @@
 package fans.goldenglow.otpauth.service;
 
-import com.nimbusds.jose.jwk.source.ImmutableSecret;
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import fans.goldenglow.otpauth.dto.TokenResponse;
 import fans.goldenglow.otpauth.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.security.oauth2.jwt.*;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -33,20 +34,22 @@ public class TokenService {
     private static final String VERIFICATION_CODE_PREFIX = "verification:";
     private final RedisTemplate<String, String> redisTemplate;
     private final UserService userService;
-    private final NimbusJwtEncoder jwtEncoder;
-    private final NimbusJwtDecoder jwtDecoder;
+    private final Algorithm algorithm;
 
     @Autowired
     public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, @Value("${jwt.secret}") String jwtSecret) {
         this.redisTemplate = redisTemplate;
         this.userService = userService;
-        SecretKey secretKey = new SecretKeySpec(jwtSecret.getBytes(), "HmacSHA256");
-        jwtEncoder = new NimbusJwtEncoder(new ImmutableSecret<>(secretKey));
-        jwtDecoder = NimbusJwtDecoder.withSecretKey(secretKey).build();
+        algorithm = Algorithm.HMAC256(jwtSecret);
     }
 
-    public void saveVerificationCode(String email, String verificationCode) {
-        redisTemplate.opsForValue().set(VERIFICATION_CODE_PREFIX + email, verificationCode);
+    private void saveVerificationCode(String email, String verificationCode) {
+        redisTemplate.opsForValue().set(
+                VERIFICATION_CODE_PREFIX + email,
+                verificationCode,
+                VERIFICATION_CODE_EXPIRATION,
+                TimeUnit.MINUTES
+        );
     }
 
     private String generateVerificationCode() {
@@ -60,26 +63,22 @@ public class TokenService {
         return code.toString();
     }
 
-    private JwtClaimsSet createTokenClaimSet(String userId, long expirationMinutes) {
+    private String generateToken(String userId, long expirationMinutes, List<String> scopes) {
         Instant now = Instant.now();
-        return JwtClaimsSet.builder()
-                .issuer(JWT_ISSUER)
-                .issuedAt(now)
-                .expiresAt(now.plus(expirationMinutes, ChronoUnit.MINUTES))
-                .subject(userId)
-                .build();
+        return JWT
+                .create()
+                .withIssuer(JWT_ISSUER)
+                .withIssuedAt(now)
+                .withExpiresAt(now.plus(expirationMinutes, ChronoUnit.MINUTES))
+                .withSubject(userId)
+                .withClaim("scope", String.join(" ", scopes))
+                .sign(algorithm);
     }
 
     public String createVerificationCode(String email) {
         String verificationCode = generateVerificationCode();
 
-        // 保存到Redis，并设置过期时间
-        redisTemplate.opsForValue().set(
-                VERIFICATION_CODE_PREFIX + email,
-                verificationCode,
-                VERIFICATION_CODE_EXPIRATION,
-                TimeUnit.MINUTES
-        );
+        saveVerificationCode(email, verificationCode);
 
         return verificationCode;
     }
@@ -95,14 +94,11 @@ public class TokenService {
         return false;
     }
 
-    private TokenResponse generateTokens(Long userId)
-    {
+    private TokenResponse generateTokens(Long userId) {
         String userIdStr = userId.toString();
-        JwtClaimsSet accessTokenClaimsSet = createTokenClaimSet(userIdStr,ACCESS_TOKEN_EXPIRATION);
-        JwtClaimsSet refreshTokenClaimSet = createTokenClaimSet(userIdStr,REFRESH_TOKEN_EXPIRATION);
 
-        String accessToken = jwtEncoder.encode(JwtEncoderParameters.from(accessTokenClaimsSet)).getTokenValue();
-        String refreshToken = jwtEncoder.encode(JwtEncoderParameters.from(refreshTokenClaimSet)).getTokenValue();
+        String accessToken = generateToken(userIdStr, ACCESS_TOKEN_EXPIRATION, List.of("profile", "email"));
+        String refreshToken = generateToken(userIdStr, REFRESH_TOKEN_EXPIRATION, List.of("refresh_token"));
         return new TokenResponse(accessToken, refreshToken);
     }
 
@@ -114,13 +110,15 @@ public class TokenService {
         return generateTokens(userId);
     }
 
-
-
-    // 使用刷新令牌生成新的访问令牌
     public TokenResponse refreshToken(String refreshTokenValue) throws Exception {
-        Jwt jwt = jwtDecoder.decode(refreshTokenValue);
+        JWTVerifier jwtVerifier = JWT.require(algorithm).withIssuer(JWT_ISSUER).build();
+        DecodedJWT decodedJWT = jwtVerifier.verify(refreshTokenValue);
 
-        String userId = jwt.getSubject();
+        if (!decodedJWT.getClaim("scope").asString().contains("refresh_token")) {
+            throw new Exception("Invalid scope");
+        }
+
+        String userId = decodedJWT.getSubject();
 
         if (!userService.existsById(Long.parseLong(userId))) {
             throw new Exception("Invalid user");
