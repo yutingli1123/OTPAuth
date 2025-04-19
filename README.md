@@ -94,18 +94,19 @@ OTPAuth
    git clone https://github.com/yourusername/OTPAuth.git
    cd OTPAuth
    ```
-
-2. Start the dependent services with Docker Compose:
+2. Modify the application.yml with your configuration
+   
+3. Start the dependent services with Docker Compose:
    ```bash
    docker-compose up -d
    ```
 
-3. Build and run the application with Gradle:
+4. Build and run the application with Gradle:
    ```bash
    ./gradlew bootRun
    ```
 
-4. The application will be running at `http://localhost:8080`
+5. The application will be running at `http://localhost:8080`
 
 ## API Endpoints
 
