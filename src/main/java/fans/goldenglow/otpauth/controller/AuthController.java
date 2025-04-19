@@ -1,6 +1,7 @@
 package fans.goldenglow.otpauth.controller;
 
 import fans.goldenglow.otpauth.dto.EmailVerificationRequest;
+import fans.goldenglow.otpauth.service.EmailService;
 import fans.goldenglow.otpauth.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,10 +15,12 @@ import java.util.Map;
 @RequestMapping("/api/v1/auth")
 public class AuthController {
     private final TokenService tokenService;
+    private final EmailService emailService;
 
     @Autowired
-    public AuthController(TokenService tokenService) {
+    public AuthController(TokenService tokenService, EmailService emailService) {
         this.tokenService = tokenService;
+        this.emailService = emailService;
     }
 
     @PostMapping
@@ -35,7 +38,7 @@ public class AuthController {
             return ResponseEntity.badRequest().build();
         }
 
-//        emailService.sendVerificationEmail(email, verificationCode);
+        emailService.sendVerificationEmail(email, verificationCode);
 
         return ResponseEntity.ok().build();
     }
