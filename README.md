@@ -57,13 +57,26 @@ OTPAuth
 │   │   ├── TokenController
 │   │   └── UserController
 │   ├── dto
+│   │   ├── EmailVerificationRequest
+│   │   ├── RefreshTokenRequest
+│   │   ├── TokenRequest
+│   │   ├── TokenResponse
+│   │   └── VeriticationCode
 │   ├── model
+│   │   └── User
 │   ├── repository
+│   │   └── UserRepository
 │   ├── service
+│   │   ├── EmailService
+│   │   ├── SecurityService
+│   │   ├── TokenService
+│   │   └── UserService
 │   └── validation
+│       ├── ValidVeriticationCode
+│       └── VerificationCodeValidator
 ├── src/main/resources
-│   ├── static
 │   ├── templates
+│   │   └── email-verification.html
 │   └── application.yml
 ```
 
