@@ -1,0 +1,8 @@
+fans.goldenglow.otpauth
+fans.goldenglow.otpauth.config
+fans.goldenglow.otpauth.controller
+fans.goldenglow.otpauth.dto
+fans.goldenglow.otpauth.model
+fans.goldenglow.otpauth.repository
+fans.goldenglow.otpauth.service
+fans.goldenglow.otpauth.validation
