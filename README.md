@@ -1,4 +1,5 @@
 # OTPAuth - Email OTP Authentication System
+[![Javadoc](https://img.shields.io/badge/JavaDoc-Online-green)](https://yutingli1123.github.io/otpauth/javadoc/)
 
 ## Project Overview
 
