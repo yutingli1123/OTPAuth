@@ -25,5 +25,6 @@ config:
     code:
       length: 6
       expiration: 5
+      resend_threshold: 60
   email:
     from: your_email_address
