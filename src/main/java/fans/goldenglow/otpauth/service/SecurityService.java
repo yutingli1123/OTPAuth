@@ -19,6 +19,10 @@ import java.security.NoSuchAlgorithmException;
 public class SecurityService {
     private SecretKey jwtSecret;
 
+    /**
+     * Generates a secret key for use in JWT operations.
+     * @return The generated secret key as a SecretKey object.
+     */
     private SecretKey GenerateSecret() {
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("HmacSHA256");
@@ -30,6 +34,10 @@ public class SecurityService {
         return null;
     }
 
+    /**
+     * Retrieves the secret key used for JWT operations.
+     * @return The secret key as a SecretKey object.
+     */
     public SecretKey getSecret() {
         if (jwtSecret == null) {
             jwtSecret = GenerateSecret();

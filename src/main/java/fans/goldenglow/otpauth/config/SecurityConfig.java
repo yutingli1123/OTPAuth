@@ -32,11 +32,21 @@ import static org.springframework.security.oauth2.core.authorization.OAuth2Autho
 public class SecurityConfig {
     private final SecurityService securityService;
 
+    /**
+     * Constructor for the SecurityConfig class.
+     * @param securityService The SecurityService instance to be used by this class.
+     */
     @Autowired
     public SecurityConfig(SecurityService securityService) {
         this.securityService = securityService;
     }
 
+    /**
+     * Defines and configures the security filter chain for handling HTTP security.
+     * @param http The HttpSecurity instance to be configured.
+     * @return A SecurityFilterChain instance configured with the provided HttpSecurity instance.
+     * @throws Exception If an error occurs during the configuration process.
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -57,6 +67,10 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * Creates a JwtDecoder bean configured with a secret key from the SecurityService.
+     * @return A JwtDecoder instance configured with the secret key from the SecurityService.
+     */
     @Bean
     public JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withSecretKey(securityService.getSecret()).build();

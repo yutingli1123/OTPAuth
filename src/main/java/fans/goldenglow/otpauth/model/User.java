@@ -38,6 +38,10 @@ public class User {
     @Column
     private boolean active = true;
 
+    /**
+     * Constructor for the User class.
+     * @param email The email address of the user.
+     */
     public User(String email) {
         this.email = email;
         this.createdAt = LocalDateTime.now();
