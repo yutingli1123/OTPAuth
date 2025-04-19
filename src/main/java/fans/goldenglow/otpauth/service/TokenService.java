@@ -21,15 +21,15 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Service
 public class TokenService {
-    @Value("${verification.code.length}")
+    @Value("${config.verification.code.length}")
     private int VERIFICATION_CODE_LENGTH;
-    @Value("${verification.code.expiration}")
+    @Value("${config.verification.code.expiration}")
     private long VERIFICATION_CODE_EXPIRATION;
-    @Value("${jwt.iss}")
+    @Value("${config.jwt.iss}")
     private String JWT_ISSUER;
-    @Value("${jwt.expiration.access_token}")
+    @Value("${config.jwt.expiration.access_token}")
     private long ACCESS_TOKEN_EXPIRATION;
-    @Value("${jwt.expiration.refresh_token}")
+    @Value("${config.jwt.expiration.refresh_token}")
     private long REFRESH_TOKEN_EXPIRATION;
 
 

@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Value;
 
 public class VerificationCodeValidator implements ConstraintValidator<ValidVerificationCode, String> {
-    @Value("${verification.code.length}")
+    @Value("${config.verification.code.length}")
     private int VERIFICATION_CODE_LENGTH;
 
     @Override

@@ -15,12 +15,15 @@ spring:
           auth: true
           starttls:
             enable: true
-jwt:
-  iss: your_iss
-  expiration:
-    access_token: 5
-    refresh_token: 15
-verification:
-  code:
-    length: 6
-    expiration: 5
+config:
+  jwt:
+    iss: your_iss
+    expiration:
+      access_token: 5
+      refresh_token: 15
+  verification:
+    code:
+      length: 6
+      expiration: 5
+  email:
+    from: your_email_address
