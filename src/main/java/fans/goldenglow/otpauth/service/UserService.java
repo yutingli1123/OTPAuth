@@ -18,17 +18,21 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 
+    public boolean existsById(Long id) {
+        return userRepository.existsById(id);
+    }
+
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
+
     @Transactional
     public User createOrUpdateUser(String email) {
-        Optional<User> existingUser = userRepository.findByEmail(email);
+        Optional<User> existingUser = findByEmail(email);
 
         User user;
         if (existingUser.isPresent()) {

@@ -6,3 +6,11 @@ spring:
       ddl-auto: update
 jwt:
   secret: your_32_bytes_secret_key
+  iss: your_iss
+  expiration:
+    access_token: 5
+    refresh_token: 15
+verification:
+  code:
+    length: 6
+    expiration: 5
