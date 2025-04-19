@@ -36,9 +36,4 @@ public class TokenController {
     public ResponseEntity<String> validateToken() {
         return ResponseEntity.ok().build();
     }
-
-    @PostMapping("/test")
-    public ResponseEntity<TokenResponse> test() {
-        return ResponseEntity.ok(tokenService.generateTokens("testttttt"));
-    }
 }
