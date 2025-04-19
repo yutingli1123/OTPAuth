@@ -30,4 +30,9 @@ public class User {
 
     @Column
     private boolean active = true;
+
+    public User(String email) {
+        this.email = email;
+        this.createdAt = LocalDateTime.now();
+    }
 }
