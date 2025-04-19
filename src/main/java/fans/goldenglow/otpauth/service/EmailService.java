@@ -5,9 +5,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
@@ -52,7 +50,7 @@ public class EmailService {
      * The email's content is generated using a Thymeleaf template and includes the verification code
      * and its expiration time.
      *
-     * @param email the recipient's email address
+     * @param email            the recipient's email address
      * @param verificationCode the verification code to be included in the email
      */
     public void sendVerificationEmail(String email, String verificationCode) {

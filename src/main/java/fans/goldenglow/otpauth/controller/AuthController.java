@@ -3,7 +3,6 @@ package fans.goldenglow.otpauth.controller;
 import fans.goldenglow.otpauth.dto.EmailVerificationRequest;
 import fans.goldenglow.otpauth.service.EmailService;
 import fans.goldenglow.otpauth.service.TokenService;
-import fans.goldenglow.otpauth.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -28,6 +27,7 @@ public class AuthController {
 
     /**
      * Constructor for the AuthController class.
+     *
      * @param tokenService The TokenService instance to be used by this controller.
      * @param emailService The EmailService instance to be used by this controller.
      */
@@ -39,6 +39,7 @@ public class AuthController {
 
     /**
      * Validates a user's access token by checking if the token is valid and has not expired.
+     *
      * @return A 200 OK response if the token is valid, or a 401 Unauthorized response if the token is invalid or expired.
      */
     @PostMapping
@@ -48,6 +49,7 @@ public class AuthController {
 
     /**
      * Requests a verification code for a given email address.
+     *
      * @param request The EmailVerificationRequest object containing the email address to request a verification code for.
      * @return A 200 OK response if the verification code was successfully sent, or a 400 Bad Request response if the email address is invalid.
      */
