@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -68,7 +67,7 @@ public class TokenService {
         return code.toString();
     }
 
-    private String generateToken(String userId, long expirationMinutes, List<String> scopes) {
+    private String generateToken(String userId, long expirationMinutes, String[] scopes) {
         Instant now = Instant.now();
         return JWT
                 .create()
@@ -120,8 +119,9 @@ public class TokenService {
     private TokenResponse generateTokens(Long userId) {
         String userIdStr = userId.toString();
 
-        String accessToken = generateToken(userIdStr, ACCESS_TOKEN_EXPIRATION, List.of("profile"));
-        String refreshToken = generateToken(userIdStr, REFRESH_TOKEN_EXPIRATION, List.of("refresh_token"));
+        String accessToken = generateToken(userIdStr, ACCESS_TOKEN_EXPIRATION, new String[]{"profile"});
+        String refreshToken = generateToken(userIdStr, REFRESH_TOKEN_EXPIRATION, new String[]{"refresh_token"});
+
         return new TokenResponse(accessToken, refreshToken);
     }
 
