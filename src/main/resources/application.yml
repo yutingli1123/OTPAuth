@@ -4,8 +4,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+  mail:
+    host: your_smtp_host
+    port: your_smtp_port
+    username: your_username
+    password: your_password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
-  secret: your_32_bytes_secret_key
   iss: your_iss
   expiration:
     access_token: 5
