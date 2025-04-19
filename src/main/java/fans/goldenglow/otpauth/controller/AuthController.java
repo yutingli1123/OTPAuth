@@ -35,10 +35,6 @@ public class AuthController {
     public ResponseEntity<Void> requestVerification(@Validated @RequestBody EmailVerificationRequest request) {
         String email = request.getEmail();
 
-        if (userService.existsByEmail(email)) {
-            return ResponseEntity.badRequest().build();
-        }
-
         String verificationCode = tokenService.createVerificationCode(email);
 
         if (verificationCode == null) {

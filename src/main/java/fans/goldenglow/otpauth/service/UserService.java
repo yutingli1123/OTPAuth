@@ -18,10 +18,6 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public boolean existsByEmail(String email) {
-        return userRepository.existsByEmail(email);
-    }
-
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
