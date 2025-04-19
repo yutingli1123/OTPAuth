@@ -22,7 +22,7 @@ public class EmailService {
     @Value("${config.email.from}")
     private String emailFrom;
     @Value("${config.verification.code.expiration}")
-    private int VERIFICATION_CODE_EXPIRATION;
+    private long VERIFICATION_CODE_EXPIRATION;
 
     @Autowired
     public EmailService(JavaMailSender javaMailSender, TemplateEngine templateEngine) {

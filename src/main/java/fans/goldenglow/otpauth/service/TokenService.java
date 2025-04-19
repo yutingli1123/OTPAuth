@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import fans.goldenglow.otpauth.dto.TokenResponse;
+import fans.goldenglow.otpauth.dto.VerificationCode;
 import fans.goldenglow.otpauth.model.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Random;
@@ -25,6 +27,8 @@ public class TokenService {
     private int VERIFICATION_CODE_LENGTH;
     @Value("${config.verification.code.expiration}")
     private long VERIFICATION_CODE_EXPIRATION;
+    @Value("${config.verification.code.resend_threshold}")
+    private long RESEND_THRESHOLD;
     @Value("${config.jwt.iss}")
     private String JWT_ISSUER;
     @Value("${config.jwt.expiration.access_token}")
@@ -33,18 +37,18 @@ public class TokenService {
     private long REFRESH_TOKEN_EXPIRATION;
 
     private static final String VERIFICATION_CODE_PREFIX = "verification:";
-    private final RedisTemplate<String, String> redisTemplate;
+    private final RedisTemplate<String, VerificationCode> redisTemplate;
     private final UserService userService;
     private final Algorithm algorithm;
 
     @Autowired
-    public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, JwtService jwtService) {
+    public TokenService(RedisTemplate<String, VerificationCode> redisTemplate, UserService userService, JwtService jwtService) {
         this.redisTemplate = redisTemplate;
         this.userService = userService;
         this.algorithm = jwtService.getAlgorithm();
     }
 
-    private void saveVerificationCode(String email, String verificationCode) {
+    private void saveVerificationCode(String email, VerificationCode verificationCode) {
         redisTemplate.opsForValue().set(
                 VERIFICATION_CODE_PREFIX + email,
                 verificationCode,
@@ -77,20 +81,34 @@ public class TokenService {
     }
 
     public String createVerificationCode(String email) {
-        if (redisTemplate.hasKey(VERIFICATION_CODE_PREFIX + email)) {
-            return null;
+        VerificationCode verificationCodeObj = redisTemplate.opsForValue().get(VERIFICATION_CODE_PREFIX + email);
+        if (verificationCodeObj != null) {
+            LocalDateTime creationTime = verificationCodeObj.getCreatedAt();
+            LocalDateTime expirationTime = creationTime.plusSeconds(RESEND_THRESHOLD);
+            if (creationTime.isBefore(expirationTime)) {
+                return null;
+            } else {
+                redisTemplate.delete(VERIFICATION_CODE_PREFIX + email);
+            }
         }
 
         String verificationCode = generateVerificationCode();
 
-        saveVerificationCode(email, verificationCode);
+        LocalDateTime now = LocalDateTime.now();
+
+        saveVerificationCode(email, new VerificationCode(verificationCode, now));
 
         return verificationCode;
     }
 
     public boolean validateVerificationCode(String email, String verificationCode) {
         String key = VERIFICATION_CODE_PREFIX + email;
-        String storedCode = redisTemplate.opsForValue().get(key);
+        VerificationCode verificationCodeObj = redisTemplate.opsForValue().get(key);
+
+        String storedCode = null;
+        if (verificationCodeObj != null) {
+            storedCode = verificationCodeObj.getVerificationCode();
+        }
 
         if (storedCode != null && storedCode.equals(verificationCode)) {
             redisTemplate.delete(key);
