@@ -12,6 +12,8 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -30,6 +32,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth").authenticated()
                         .requestMatchers("/api/v1/auth/**", "/public/**").permitAll()
+                        .requestMatchers("/api/v1/user/**").access(hasScope("profile"))
                         .anyRequest().denyAll()
                 )
                 .sessionManagement(session -> session
