@@ -4,3 +4,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+jwt:
+  secret: your_32_bytes_secret_key
