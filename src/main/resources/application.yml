@@ -1,3 +1,6 @@
 spring:
   application:
     name: OTPAuth
+  jpa:
+    hibernate:
+      ddl-auto: update
