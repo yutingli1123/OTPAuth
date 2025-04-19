@@ -116,7 +116,9 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-first">Constructor</div>
 <div class="table-header col-last">Description</div>
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(fans.goldenglow.otpauth.service.SecurityService)" class="member-name-link">SecurityConfig</a><wbr>(<a href="../service/SecurityService.html" title="class in fans.goldenglow.otpauth.service">SecurityService</a>&nbsp;securityService)</code></div>
-<div class="col-last even-row-color">&nbsp;</div>
+<div class="col-last even-row-color">
+<div class="block">Constructor for the SecurityConfig class.</div>
+</div>
 </div>
 </section>
 </li>
@@ -133,10 +135,14 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.oauth2.jwt.JwtDecoder</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#jwtDecoder()" class="member-name-link">jwtDecoder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Creates a JwtDecoder bean configured with a secret key from the SecurityService.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>org.springframework.security.web.SecurityFilterChain</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#securityFilterChain(org.springframework.security.config.annotation.web.builders.HttpSecurity)" class="member-name-link">securityFilterChain</a><wbr>(org.springframework.security.config.annotation.web.builders.HttpSecurity&nbsp;http)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Defines and configures the security filter chain for handling HTTP security.</div>
+</div>
 </div>
 </div>
 </div>
@@ -159,6 +165,11 @@ loadScripts(document, 'script');</script>
 <h3>SecurityConfig</h3>
 <div class="member-signature"><span class="annotations">@Autowired
 </span><span class="modifiers">public</span>&nbsp;<span class="element-name">SecurityConfig</span><wbr><span class="parameters">(<a href="../service/SecurityService.html" title="class in fans.goldenglow.otpauth.service">SecurityService</a>&nbsp;securityService)</span></div>
+<div class="block">Constructor for the SecurityConfig class.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>securityService</code> - The SecurityService instance to be used by this class.</dd>
+</dl>
 </section>
 </li>
 </ul>
@@ -175,9 +186,14 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations">@Bean
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.security.web.SecurityFilterChain</span>&nbsp;<span class="element-name">securityFilterChain</span><wbr><span class="parameters">(org.springframework.security.config.annotation.web.builders.HttpSecurity&nbsp;http)</span>
                                                                          throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
+<div class="block">Defines and configures the security filter chain for handling HTTP security.</div>
 <dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>http</code> - The HttpSecurity instance to be configured.</dd>
+<dt>Returns:</dt>
+<dd>A SecurityFilterChain instance configured with the provided HttpSecurity instance.</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></code> - If an error occurs during the configuration process.</dd>
 </dl>
 </section>
 </li>
@@ -186,6 +202,11 @@ loadScripts(document, 'script');</script>
 <h3>jwtDecoder</h3>
 <div class="member-signature"><span class="annotations">@Bean
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">org.springframework.security.oauth2.jwt.JwtDecoder</span>&nbsp;<span class="element-name">jwtDecoder</span>()</div>
+<div class="block">Creates a JwtDecoder bean configured with a secret key from the SecurityService.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>A JwtDecoder instance configured with the secret key from the SecurityService.</dd>
+</dl>
 </section>
 </li>
 </ul>
