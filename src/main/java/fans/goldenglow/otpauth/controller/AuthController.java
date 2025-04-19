@@ -3,6 +3,7 @@ package fans.goldenglow.otpauth.controller;
 import fans.goldenglow.otpauth.dto.EmailVerificationRequest;
 import fans.goldenglow.otpauth.service.EmailService;
 import fans.goldenglow.otpauth.service.TokenService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -54,7 +55,7 @@ public class AuthController {
      * @return A 200 OK response if the verification code was successfully sent, or a 400 Bad Request response if the email address is invalid.
      */
     @PostMapping("/request-verification")
-    public ResponseEntity<Void> requestVerification(@Validated @RequestBody EmailVerificationRequest request) {
+    public ResponseEntity<Void> requestVerification(@Valid @RequestBody EmailVerificationRequest request) {
         String email = request.getEmail();
 
         String verificationCode = tokenService.createVerificationCode(email);

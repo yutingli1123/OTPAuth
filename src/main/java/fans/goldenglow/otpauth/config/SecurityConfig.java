@@ -44,7 +44,7 @@ public class SecurityConfig {
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth").authenticated()
-                        .requestMatchers("/api/v1/auth/**", "/public/**").permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/public/**", "/error/**").permitAll()
                         .requestMatchers("/api/v1/user/**").access(hasScope("profile"))
                         .anyRequest().denyAll()
                 )

@@ -4,6 +4,7 @@ import fans.goldenglow.otpauth.dto.RefreshTokenRequest;
 import fans.goldenglow.otpauth.dto.TokenRequest;
 import fans.goldenglow.otpauth.dto.TokenResponse;
 import fans.goldenglow.otpauth.service.TokenService;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class TokenController {
      *         verification is successful, or a bad request status if verification fails.
      */
     @PostMapping
-    public ResponseEntity<TokenResponse> exchangeToken(@RequestBody TokenRequest token) {
+    public ResponseEntity<TokenResponse> exchangeToken(@Valid @RequestBody TokenRequest token) {
         boolean verificationResult = tokenService.validateVerificationCode(token.getEmail(), token.getVerificationCode());
         if (verificationResult) {
             return ResponseEntity.ok(tokenService.generateTokens(token.getEmail()));
