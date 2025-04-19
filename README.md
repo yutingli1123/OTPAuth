@@ -2,7 +2,10 @@
 
 ## Project Overview
 
-OTPAuth is a Spring Boot based authentication system that implements a secure email OTP (One-Time Password) workflow for user registration and login. Instead of traditional password-based authentication, users receive verification codes via email that they can exchange for access tokens. The system uses JWT (JSON Web Token) for secure authentication and integrates Redis for efficient caching of verification codes and session management.
+OTPAuth is a Spring Boot based authentication system that implements a secure email OTP (One-Time Password) workflow for
+user registration and login. Instead of traditional password-based authentication, users receive verification codes via
+email that they can exchange for access tokens. The system uses JWT (JSON Web Token) for secure authentication and
+integrates Redis for efficient caching of verification codes and session management.
 
 ## Technology Stack
 
@@ -21,25 +24,25 @@ OTPAuth is a Spring Boot based authentication system that implements a secure em
 ## Features
 
 - **Email-based OTP Authentication Flow**:
-  - User initiates registration/login by providing email
-  - System generates a time-limited verification code
-  - Verification code is sent to user's email using customizable Thymeleaf templates
-  - User submits email + verification code to obtain JWT access token
-  - No passwords required
+    - User initiates registration/login by providing email
+    - System generates a time-limited verification code
+    - Verification code is sent to user's email using customizable Thymeleaf templates
+    - User submits email + verification code to obtain JWT access token
+    - No passwords required
 
 - **Secure Token Management**:
-  - JWT-based access tokens with configurable expiration
-  - Refresh token support for extended sessions
-  - Token validation and verification endpoints
+    - JWT-based access tokens with configurable expiration
+    - Refresh token support for extended sessions
+    - Token validation and verification endpoints
 
 - **Redis Integration**:
-  - Efficient storage and retrieval of verification codes
-  - Automatic code expiration handling
+    - Efficient storage and retrieval of verification codes
+    - Automatic code expiration handling
 
 - **Security Features**:
-  - Rate limiting for OTP requests
-  - Verification code validation with custom validators
-  - Secure token exchange
+    - Rate limiting for OTP requests
+    - Verification code validation with custom validators
+    - Secure token exchange
 
 ## Project Structure
 
@@ -127,19 +130,13 @@ OTPAuth
   ```
 
 - `POST /api/v1/auth` - Verify if a token is valid (protected endpoint)
-  ```json
-  {
-    "header": {
-      "Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
-    }
-  }
-  ```
 
 ### User Management
 
 - `GET /api/v1/user/me` - Get current user profile (protected endpoint)
 
 ## Contributing
+
 1. Fork the project
 2. Create your feature branch (`git checkout -b feature/amazing-feature`)
 3. Commit your changes (`git commit -m 'Add some amazing feature'`)
