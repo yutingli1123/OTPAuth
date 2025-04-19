@@ -32,17 +32,16 @@ public class TokenService {
     @Value("${config.jwt.expiration.refresh_token}")
     private long REFRESH_TOKEN_EXPIRATION;
 
-
     private static final String VERIFICATION_CODE_PREFIX = "verification:";
     private final RedisTemplate<String, String> redisTemplate;
     private final UserService userService;
     private final Algorithm algorithm;
 
     @Autowired
-    public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, SecurityService securityService) {
+    public TokenService(RedisTemplate<String, String> redisTemplate, UserService userService, JwtService jwtService) {
         this.redisTemplate = redisTemplate;
         this.userService = userService;
-        algorithm = Algorithm.HMAC256(securityService.GetSecret().getEncoded());
+        this.algorithm = jwtService.getAlgorithm();
     }
 
     private void saveVerificationCode(String email, String verificationCode) {
@@ -103,7 +102,7 @@ public class TokenService {
     private TokenResponse generateTokens(Long userId) {
         String userIdStr = userId.toString();
 
-        String accessToken = generateToken(userIdStr, ACCESS_TOKEN_EXPIRATION, List.of("profile", "email"));
+        String accessToken = generateToken(userIdStr, ACCESS_TOKEN_EXPIRATION, List.of("profile"));
         String refreshToken = generateToken(userIdStr, REFRESH_TOKEN_EXPIRATION, List.of("refresh_token"));
         return new TokenResponse(accessToken, refreshToken);
     }
