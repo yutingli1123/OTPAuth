@@ -96,18 +96,13 @@ OTPAuth
    cd OTPAuth
    ```
 2. Modify the application.yml with your configuration
-   
-3. Start the dependent services with Docker Compose:
-   ```bash
-   docker-compose up -d
-   ```
 
-4. Build and run the application with Gradle:
+3. Build and run the application with Gradle:
    ```bash
    ./gradlew bootRun
    ```
 
-5. The application will be running at `http://localhost:8080`
+4. The application will be running at `http://localhost:8080`
 
 ## API Endpoints
 
