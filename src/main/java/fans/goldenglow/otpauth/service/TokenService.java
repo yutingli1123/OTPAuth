@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -122,6 +123,12 @@ public class TokenService {
      * within the resend threshold
      */
     public String createVerificationCode(String email) {
+        Optional<User> user = userService.findByEmail(email);
+
+        if (user.isPresent() && !user.get().isActive()) {
+            return null;
+        }
+
         VerificationCode verificationCodeObj = redisTemplate.opsForValue().get(VERIFICATION_CODE_PREFIX + email);
         if (verificationCodeObj != null) {
             LocalDateTime creationTime = verificationCodeObj.getCreatedAt();
