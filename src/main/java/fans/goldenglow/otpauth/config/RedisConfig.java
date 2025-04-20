@@ -4,6 +4,7 @@ import fans.goldenglow.otpauth.dto.VerificationCode;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -15,6 +16,12 @@ import org.springframework.data.redis.core.RedisTemplate;
  */
 @Configuration
 public class RedisConfig {
+
+    @Bean
+    public RedisConnectionFactory connectionFactory() {
+        return new LettuceConnectionFactory();
+    }
+
     @Bean
     public RedisTemplate<String, VerificationCode> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, VerificationCode> template = new RedisTemplate<>();
