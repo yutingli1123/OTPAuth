@@ -95,13 +95,13 @@ OTPAuth
    git clone https://github.com/yourusername/OTPAuth.git
    cd OTPAuth
    ```
-2. Modify the application.yml with your configuration
+2. Modify the **application.yml** and **compose.yaml** with your configuration
 
 3. Build and run the application with Gradle:
    ```bash
    ./gradlew bootRun
    ```
-
+   
 4. The application will be running at `http://localhost:8080`
 
 ## API Endpoints
