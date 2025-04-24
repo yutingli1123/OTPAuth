@@ -4,17 +4,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import fans.goldenglow.otpauth.validation.ValidVerificationCode;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Represents a request for generating authentication tokens.
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class TokenRequest {
     @JsonProperty("email")
     @Email

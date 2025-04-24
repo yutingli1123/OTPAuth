@@ -2,9 +2,8 @@ package fans.goldenglow.otpauth.dto;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 /**
  * Represents a request for email verification.
@@ -13,8 +12,7 @@ import lombok.Setter;
  */
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class EmailVerificationRequest {
     @Email
     private String email;
